@@ -39,15 +39,15 @@ export default function Home() {
     getNews();
   }, [search]);
 
-  // useEffect(() => {
-  //   if (news.length > 0) {
-  //     setVisibleNews(news.slice(0, 5));
-  //   }
-  // }, [news]);
+  useEffect(() => {
+    if (news.length > 0) {
+      setVisibleNews(news.slice(0, 5));
+    }
+  }, [news]);
 
-  // function handleShowMore() {
-  //   setVisibleNews(news.slice(0, visibleNews.length + 5));
-  // }
+  function handleShowMore() {
+    setVisibleNews(news.slice(0, visibleNews.length + 5));
+  }
 
   if (loading) {
     return (
@@ -68,7 +68,7 @@ export default function Home() {
         </button>
       </form>
       <main>
-        {news && news.map((article, index) => (
+        {visibleNews && visibleNews.map((article, index) => (
           <NewsCard 
             key={index} 
             url={article.url}
@@ -79,9 +79,9 @@ export default function Home() {
           />
         ))}
       </main>
-        {/* {!showMore && visibleNews.length < news.length && (
+        {!showMore && visibleNews.length < news.length && (
           <button onClick={handleShowMore}>Mostrar mais</button>
-        )} */}
+        )}
     </div>
   );
 }
