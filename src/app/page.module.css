@@ -1,5 +1,41 @@
 .page {
   padding-inline: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page button {
+  font-weight: 500;
+  background-color: rgb(213, 221, 228);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-block: 10px;
+}
+
+.page button:hover {
+  opacity: 0.5;
+}
+
+.page form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.page form label {
+  font-size: 14px;
+}
+
+.page form input {
+  border-radius: 10px;
+  padding: 5px 10px;
+  border: thin solid black;
+  width: 300px;
 }
 
 @media (max-width: 1050px) {
@@ -23,5 +59,9 @@
 @media (max-width: 400px) {
   .page {
     padding-inline: 15px;
+  }
+
+  .page form input {
+    width: 200px;
   }
 }

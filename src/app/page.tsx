@@ -78,10 +78,10 @@ export default function Home() {
             publishedAt={article.publishedAt}
           />
         ))}
+      </main>
         {!showMore && visibleNews.length < news.length && (
           <button onClick={handleShowMore}>Mostrar mais</button>
         )}
-      </main>
     </div>
   );
 }
