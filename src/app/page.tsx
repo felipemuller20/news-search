@@ -29,11 +29,12 @@ export default function Home() {
       setLoading(true);
       if (!search) {
         const data = await fetchNews('web development');
-        console.log(data);
-        setNews(data.slice(1, 5));
+        const addNews = data.slice(0, 5)
+        setNews(addNews);
       } else {
         const data = await fetchNews(search);
-        setNews(data.slice(0, 5));
+        const addNews = data.slice(0, 5)
+        setNews(addNews);
       }
       setLoading(false);
     }
