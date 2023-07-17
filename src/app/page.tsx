@@ -12,6 +12,8 @@ export default function Home() {
   const [search, setSearch] = useState('');
   const [news, setNews] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
+  const [visibleNews, setVisibleNews] = useState<News[]>([]);
+  const [showMore, setShowMore] = useState(false);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -28,20 +30,29 @@ export default function Home() {
       if (!search) {
         const news = await fetchNews('brasil');
         setNews(news);
-
       } else {
         const news = await fetchNews(search);
         setNews(news);
       }
-      setLoading(false)
+      setLoading(false);
     }
     getNews();
   }, [search]);
 
+  useEffect(() => {
+    if (news.length > 0) {
+      setVisibleNews(news.slice(0, 5));
+    }
+  }, [news]);
+
+  function handleShowMore() {
+    setVisibleNews(news.slice(0, visibleNews.length + 5));
+  }
+
   if (loading) {
     return (
       <h1>Carregando...</h1>
-    )
+    );
   }
 
   return (
@@ -51,17 +62,25 @@ export default function Home() {
           Pesquisar notícias
         </label>
         <input id="search" ref={searchRef} />
-        <button type="submit"><BsSearch />{` Pesquisar`}</button>
+        <button type="submit">
+          <BsSearch />
+          {` Pesquisar`}
+        </button>
       </form>
       <main>
-        {news.map((article, index) => (
+        {visibleNews.map((article, index) => (
           <NewsCard 
             key={index} 
+            url={article.url}
             title={article.title}
             author={article.author}
             description={article.description}
+            publishedAt={article.publishedAt}
           />
         ))}
+        {!showMore && visibleNews.length < news.length && (
+          <button onClick={handleShowMore}>Mostrar mais</button>
+        )}
       </main>
     </div>
   );
