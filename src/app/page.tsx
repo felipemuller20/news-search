@@ -68,7 +68,7 @@ export default function Home() {
         </button>
       </form>
       <main>
-        {news.map((article, index) => (
+        {news && news.map((article, index) => (
           <NewsCard 
             key={index} 
             url={article.url}
