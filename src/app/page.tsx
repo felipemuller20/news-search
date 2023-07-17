@@ -28,7 +28,7 @@ export default function Home() {
     async function getNews() {
       setLoading(true);
       if (!search) {
-        const news = await fetchNews('brasil');
+        const news = await fetchNews('web development');
         setNews(news);
       } else {
         const news = await fetchNews(search);

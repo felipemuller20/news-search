@@ -13,12 +13,12 @@ export default function NewsCard({title, author, description, url, publishedAt}:
   return (
     <div className={styles.card}>
       <h1 className={styles.title}>{title}</h1>
+      <h2 className={styles.author}>{ author ? `Autor: ${author}` : 'Autor: Não informado'}</h2>
+      <p className={styles.description}>{description || 'Descrição não informada'}</p>
       {
-        author ? <h2>{`Autor: ${author}`}</h2> : <h2>Autor: Não informado</h2>
+        url ? <a href={url} target="_blank" rel="noreferrer">Leia a matéria completa.</a> : <p>URL da notícia não informada.</p>
       }
-      <p className={styles.date}>{convertDateFormat(publishedAt)}</p>
-      <p className={styles.description}>{description}</p>
-      <a href={url} target="_blank">Leia a matéria completa.</a>
+      <p className={styles.date}>{publishedAt ? `${convertDateFormat(publishedAt)}` : 'Data de publicação não informada'}</p>
     </div>
   )
 }

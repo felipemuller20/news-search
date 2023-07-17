@@ -1,3 +1,27 @@
 .page {
   padding-inline: 250px;
 }
+
+@media (max-width: 1050px) {
+  .page {
+    padding-inline: 150px;
+  }
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding-inline: 100px;
+  }
+}
+
+@media (max-width: 550px) {
+  .page {
+    padding-inline: 50px;
+  }
+}
+
+@media (max-width: 400px) {
+  .page {
+    padding-inline: 15px;
+  }
+}
