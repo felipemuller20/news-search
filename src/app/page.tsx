@@ -1,95 +1,68 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import { BsSearch } from 'react-icons/bs';
+import styles from './page.module.css';
+import { fetchNews } from '@/utils/fetchNews';
+import NewsCard from '@/components/news-card';
+import { News } from '@/types';
 
 export default function Home() {
+  const searchRef = useRef<HTMLInputElement>(null);
+  const [search, setSearch] = useState('');
+  const [news, setNews] = useState<News[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (searchRef.current) {
+      const value = searchRef.current.value;
+      setSearch(value);
+    }
+  }
+
+  useEffect(() => {
+    async function getNews() {
+      setLoading(true);
+      if (!search) {
+        const news = await fetchNews('brasil');
+        setNews(news);
+
+      } else {
+        const news = await fetchNews(search);
+        setNews(news);
+      }
+      setLoading(false)
+    }
+    getNews();
+  }, [search]);
+
+  if (loading) {
+    return (
+      <h1>Carregando...</h1>
+    )
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    <div className={styles.page}>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="search">
+          Pesquisar notícias
+        </label>
+        <input id="search" ref={searchRef} />
+        <button type="submit"><BsSearch />{` Pesquisar`}</button>
+      </form>
+      <main>
+        {news.map((article, index) => (
+          <NewsCard 
+            key={index} 
+            title={article.title}
+            author={article.author}
+            description={article.description}
+          />
+        ))}
+      </main>
+    </div>
+  );
 }
