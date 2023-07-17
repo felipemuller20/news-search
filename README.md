@@ -30,6 +30,12 @@ Para executar o projeto na sua máquina, faça um clone do repositório:
 git clone git@github.com:felipemuller20/news-search.git
 ```
 
+Após entrar no diretório criado, instale as dependências do projeto:
+
+```bash
+npm install
+```
+
 Para realizar uma requisição à API, é necessária uma chave de acesso. Basta acessar [esse link](https://newsapi.org/) e solicitar uma chave.
 
 Na raiz do projeto, crie um arquivo `.env.local` e adicione a chave da seguinte maneira, substituindo o valor abaixo pela chave gerada para você.
