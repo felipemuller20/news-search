@@ -28,26 +28,27 @@ export default function Home() {
     async function getNews() {
       setLoading(true);
       if (!search) {
-        const news = await fetchNews('web development');
-        setNews(news);
+        const data = await fetchNews('web development');
+        console.log(data);
+        setNews(data.slice(1, 5));
       } else {
-        const news = await fetchNews(search);
-        setNews(news);
+        const data = await fetchNews(search);
+        setNews(data.slice(0, 5));
       }
       setLoading(false);
     }
     getNews();
   }, [search]);
 
-  useEffect(() => {
-    if (news.length > 0) {
-      setVisibleNews(news.slice(0, 5));
-    }
-  }, [news]);
+  // useEffect(() => {
+  //   if (news.length > 0) {
+  //     setVisibleNews(news.slice(0, 5));
+  //   }
+  // }, [news]);
 
-  function handleShowMore() {
-    setVisibleNews(news.slice(0, visibleNews.length + 5));
-  }
+  // function handleShowMore() {
+  //   setVisibleNews(news.slice(0, visibleNews.length + 5));
+  // }
 
   if (loading) {
     return (
@@ -68,7 +69,7 @@ export default function Home() {
         </button>
       </form>
       <main>
-        {visibleNews.map((article, index) => (
+        {news.map((article, index) => (
           <NewsCard 
             key={index} 
             url={article.url}
@@ -79,9 +80,9 @@ export default function Home() {
           />
         ))}
       </main>
-        {!showMore && visibleNews.length < news.length && (
+        {/* {!showMore && visibleNews.length < news.length && (
           <button onClick={handleShowMore}>Mostrar mais</button>
-        )}
+        )} */}
     </div>
   );
 }
